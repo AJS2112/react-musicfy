@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
 import firebaseApp from "../../../utils/firebase";
 import { getAuth } from "firebase/auth";
@@ -7,20 +7,29 @@ import './RegisterForm.scss';
 
 export default function RegisterForm(props) {
     const { setSelectedForm } = props;
+    const [formData, setFormData] = useState(defaultValueForm);
+
+    const onChange = event => {
+        setFormData({
+            ...formData,
+            [event.target.name]: event.target.value
+        })
+    }
+
     const onSubmitHandler = () => {
         console.log('Formulario enviado');
+        console.log(formData)
     }
     return (
         <div className="register-form">
             <h1>Empieza a escuchar con una cuenta de Musicfy gratis</h1>
-            <Form onSubmit={onSubmitHandler}>
+            <Form onSubmit={onSubmitHandler} onChange={onChange}>
                 <Form.Field>
                     <Input
                         type="text"
                         name="email"
                         placeholder="Correo electronico"
                         icon="mail outline"
-                    //onChange={}
                     //error={}
                     />
                 </Form.Field>
@@ -30,7 +39,6 @@ export default function RegisterForm(props) {
                         name="password"
                         placeholder="Constraseña"
                         icon="eye"
-                    //onChange={}
                     //error={}
                     />
                 </Form.Field>
@@ -40,7 +48,6 @@ export default function RegisterForm(props) {
                         name="username"
                         placeholder="Como deberiamos llamarte?"
                         icon="user circle outline"
-                    //onChange={}
                     //error={}
                     />
                 </Form.Field>
@@ -55,4 +62,12 @@ export default function RegisterForm(props) {
             </div>
         </div>
     )
+}
+
+function defaultValueForm() {
+    return {
+        email: "",
+        password: "",
+        username: ""
+    }
 }
