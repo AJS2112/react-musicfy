@@ -8,6 +8,11 @@ import './RegisterForm.scss';
 export default function RegisterForm(props) {
     const { setSelectedForm } = props;
     const [formData, setFormData] = useState(defaultValueForm);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const showPasswordHandler = () => {
+        setShowPassword(!showPassword);
+    }
 
     const onChange = event => {
         setFormData({
@@ -35,10 +40,14 @@ export default function RegisterForm(props) {
                 </Form.Field>
                 <Form.Field>
                     <Input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         placeholder="Constraseña"
-                        icon="eye"
+                        icon={showPassword ? (
+                            <Icon name="eye slash outline" link onClick={showPasswordHandler} />
+                        ) : (
+                            <Icon name="eye" link onClick={showPasswordHandler} />
+                        )}
                     //error={}
                     />
                 </Form.Field>
