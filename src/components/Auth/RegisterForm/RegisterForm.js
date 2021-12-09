@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
 import firebaseApp from "../../../utils/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import { toast } from 'react-toastify'
 
 import { validateEmail } from '../../../utils/Validations';
 import './RegisterForm.scss';
@@ -26,6 +26,7 @@ export default function RegisterForm(props) {
     }
 
     const onSubmitHandler = () => {
+
         setFormError({});
         let errors = {};
         let formOk = true;
@@ -58,8 +59,9 @@ export default function RegisterForm(props) {
                     // ...
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
+                    toast.error("Error al crear la cuenta");
+                    // const errorCode = error.code;
+                    // const errorMessage = error.message;
                     // ..
                 })
                 .finally(() => {

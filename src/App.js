@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import firebaseApp from "./utils/firebase";
 import { getAuth } from "firebase/auth";
+import { ToastContainer } from 'react-toastify';
 
 import Auth from "./pages/Auth";
 
@@ -25,7 +26,20 @@ function App() {
   }
 
   return (
-    !user ? <Auth /> : <UserLogged />
+    <>
+      {!user ? <Auth /> : <UserLogged />}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover={false}
+      />
+    </>
   );
 }
 
