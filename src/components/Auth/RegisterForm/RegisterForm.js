@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
 import firebaseApp from "../../../utils/firebase";
-import { getAuth } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 import { validateEmail } from '../../../utils/Validations';
@@ -48,7 +48,24 @@ export default function RegisterForm(props) {
         setFormError(errors);
 
         if (formOk) {
-            console.log("Formulario VALIDO");
+            setIsLoading(true);
+            const auth = getAuth(firebaseApp);
+
+            createUserWithEmailAndPassword(auth, formData.email, formData.password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                    setSelectedForm(null);
+                });
         }
     }
     return (
@@ -101,7 +118,7 @@ export default function RegisterForm(props) {
                         </span>
                     )}
                 </Form.Field>
-                <Button type="submit">Continuar</Button>
+                <Button type="submit" loading={isLoading}>Continuar</Button>
             </Form>
             <div className="register-form__options">
                 <p onClick={() => setSelectedForm(null)}>Volver</p>
