@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
 import firebaseApp from "../../../utils/firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { toast } from 'react-toastify'
 
 import { validateEmail } from '../../../utils/Validations';
@@ -55,6 +55,7 @@ export default function RegisterForm(props) {
             createUserWithEmailAndPassword(auth, formData.email, formData.password)
                 .then((userCredential) => {
                     // Signed in
+                    changeUserName();
                     const user = userCredential.user;
                     // ...
                 })
@@ -70,6 +71,16 @@ export default function RegisterForm(props) {
                 });
         }
     }
+
+    const changeUserName = () => {
+        const auth = getAuth();
+        updateProfile(auth.currentUser, {
+            displayName: formData.username
+        }).catch((error) => {
+            toast.error("Error al asignar el nombre del usuario");
+        });
+    }
+
     return (
         <div className="register-form">
             <h1>Empieza a escuchar con una cuenta de Musicfy gratis</h1>
