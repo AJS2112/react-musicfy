@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
 import firebaseApp from "../../../utils/firebase";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 import { toast } from 'react-toastify'
 
 import { validateEmail } from '../../../utils/Validations';
@@ -56,6 +56,7 @@ export default function RegisterForm(props) {
                 .then((userCredential) => {
                     // Signed in
                     changeUserName();
+                    sendVerificationEmail();
                     const user = userCredential.user;
                     // ...
                 })
@@ -79,6 +80,16 @@ export default function RegisterForm(props) {
         }).catch((error) => {
             toast.error("Error al asignar el nombre del usuario");
         });
+    }
+
+    const sendVerificationEmail = () => {
+        const auth = getAuth();
+        sendEmailVerification(auth.currentUser)
+            .then(() => {
+                toast.success("Se ha enviado el email de verificacion");
+            }).catch((error) => {
+                toast.error("Error al enviar el email de verificacion");
+            });
     }
 
     return (

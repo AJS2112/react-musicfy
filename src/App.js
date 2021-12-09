@@ -13,11 +13,14 @@ function App() {
 
 
   auth.onAuthStateChanged(currentUser => {
-    if (!currentUser) {
+    console.log(currentUser);
+    if (!currentUser?.emailVerified) {
+      auth.signOut();
       setUser(null);
     } else {
       setUser(currentUser);
     }
+
     setIsLoading(false);
   });
 
