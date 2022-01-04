@@ -12,20 +12,36 @@ export default function LoginForm(props) {
 
     const { setSelectedForm } = props;
     const [showPassword, setShowPassword] = useState(false);
+    const [formData, setFormData] = useState(defaultValueForm());
+
+    const onChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
     const handlerShowPassword = () => {
         setShowPassword(!showPassword);
     }
+
     const onSubmit = () => {
         console.log("Login...");
+        console.log(formData);
     }
 
     return (
         <div className="login-form">
             <h1>Musica para todos</h1>
 
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={onSubmit} onChange={onChange}>
                 <Form.Field>
-                    <Input type="text" name="email" placeholder="Correo electronico" icon="mail outline" />
+                    <Input
+                        type="text"
+                        name="email"
+                        placeholder="Correo electronico"
+                        icon="mail outline"
+                    />
                 </Form.Field>
                 <Form.Field>
                     <Input type={showPassword ? "text" : "password"} name="password" placeholder="Contraseã"
@@ -52,4 +68,11 @@ export default function LoginForm(props) {
             </div>
         </div>
     )
+}
+
+function defaultValueForm() {
+    return {
+        email: "",
+        password: ""
+    }
 }
