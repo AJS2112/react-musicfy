@@ -11,6 +11,10 @@ import './LoginForm.scss';
 export default function LoginForm(props) {
 
     const { setSelectedForm } = props;
+    const [showPassword, setShowPassword] = useState(false);
+    const handlerShowPassword = () => {
+        setShowPassword(!showPassword);
+    }
     const onSubmit = () => {
         console.log("Login...");
     }
@@ -24,7 +28,15 @@ export default function LoginForm(props) {
                     <Input type="text" name="email" placeholder="Correo electronico" icon="mail outline" />
                 </Form.Field>
                 <Form.Field>
-                    <Input type="password" name="password" placeholder="Contraseã" icon="eye" />
+                    <Input type={showPassword ? "text" : "password"} name="password" placeholder="Contraseã"
+                        icon={
+                            showPassword ? (
+                                <Icon name="eye slash outline" link onClick={handlerShowPassword} />
+                            ) : (
+                                <Icon name="eye" link onClick={handlerShowPassword} />
+                            )
+                        }
+                    />
                 </Form.Field>
                 <Button type="submit">
                     Iniciar sesión
