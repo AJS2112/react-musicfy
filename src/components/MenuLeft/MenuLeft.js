@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
-import { Link, withRoute } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import "./MenuLeft.scss";
 
-export default function MenuLeft(props) {
+function MenuLeft(props) {
     const { user } = props;
 
     return (
         <Menu className='menu-left' vertical>
             <div className='top'>
-                <Menu.Item name='home'>
+                <Menu.Item as={Link} to="/" name='home'>
                     <Icon name='home' /> Inicio
                 </Menu.Item>
-                <Menu.Item name='artists'>
+                <Menu.Item as={Link} to="/artists" name='artists'>
                     <Icon name='music' /> Artistas
                 </Menu.Item>
             </div>
@@ -28,3 +28,5 @@ export default function MenuLeft(props) {
         </Menu>
     )
 }
+
+export default withRouter(MenuLeft);
