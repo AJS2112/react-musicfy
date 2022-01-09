@@ -12,6 +12,11 @@ function MenuLeft(props) {
 
     const [activeMenu, setActiveMenu] = useState("/");
     const [userAdmin, setUserAdmin] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [titleModal, setTitleModal] = useState(null);
+    const [contentModal, setContentModal] = useState(null);
+
+
 
     useEffect(() => {
         isUserAdmin(user.uid).then(response => {
@@ -22,6 +27,28 @@ function MenuLeft(props) {
     const handlerMenu = (e, menu) => {
         setActiveMenu(menu.to);
     };
+
+    const handlerModal = (type) => {
+        switch (type) {
+            case "artist":
+                setTitleModal("Nuevo Artista")
+                setContentModal(<h2>Formulario Nuevo Artista</h2>);
+                setShowModal(true);
+                break;
+            case "song":
+                setTitleModal("Nueva Canción")
+                setContentModal(<h2>Formulario Nueva Canción</h2>);
+                setShowModal(true);
+                break;
+
+            default:
+                setTitleModal(null)
+                setContentModal(null);
+                setShowModal(false);
+
+                break;
+        }
+    }
 
     return (
         <>
@@ -46,18 +73,17 @@ function MenuLeft(props) {
                 </div>
                 {userAdmin && (
                     <div className='footer'>
-
-                        <Menu.Item>
+                        <Menu.Item onClick={() => handlerModal('artist')}>
                             <Icon name='plus square outline' /> Nuevo Artista
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => handlerModal('song')}>
                             <Icon name='plus square outline' /> Nueva Canción
                         </Menu.Item>
                     </div>
                 )}
             </Menu>
-            <BasicModal show={false} setShow={null} title="Test title">
-                <h2>Contenido del Modal!</h2>
+            <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
+                {contentModal}
             </BasicModal>
         </>
     )
