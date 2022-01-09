@@ -6,8 +6,10 @@ import {
 
 //Pages
 import Home from "../pages/Home/Home";
+import Settings from "../pages/Settings";
 
-export default function Routes() {
+export default function Routes(props) {
+    const { user } = props;
     return (
         <Switch>
             <Route path="/" exact>
@@ -19,7 +21,7 @@ export default function Routes() {
             </Route>
 
             <Route path="/settings" exact>
-                <h1>Settings</h1>
+                <Settings user={user} />
             </Route>
         </Switch>
     )

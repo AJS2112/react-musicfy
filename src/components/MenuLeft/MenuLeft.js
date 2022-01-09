@@ -8,15 +8,17 @@ import BasicModal from '../Modal/BasicModal/BasicModal';
 import "./MenuLeft.scss";
 
 function MenuLeft(props) {
-    const { user } = props;
+    const { user, location } = props;
 
-    const [activeMenu, setActiveMenu] = useState("/");
+    const [activeMenu, setActiveMenu] = useState(location.pathname);
     const [userAdmin, setUserAdmin] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [titleModal, setTitleModal] = useState(null);
     const [contentModal, setContentModal] = useState(null);
 
-
+    useEffect(() => {
+        setActiveMenu(location.pathname)
+    }, [location]);
 
     useEffect(() => {
         isUserAdmin(user.uid).then(response => {

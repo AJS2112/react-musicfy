@@ -2,20 +2,20 @@ import React from "react";
 import { Icon, Image } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import firebaseApp from "../../utils/firebase";
-import { getAuth, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import UserImage from "../../assets/png/user.png";
 
 import "./TopBar.scss";
 
-export default function TopBar(props) {
-    const { user } = props;
+function TopBar(props) {
+    const { user, history } = props;
 
     const logout = () => {
-        console.log("Cerrar sesión");
+        getAuth(firebaseApp).signOut();
     }
 
     const goBack = () => {
-        console.log('go back');
+        history.goBack();
     }
 
     return (
@@ -33,3 +33,5 @@ export default function TopBar(props) {
         </div>
     )
 }
+
+export default withRouter(TopBar);
