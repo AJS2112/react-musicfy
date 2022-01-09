@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Icon, Form, Input } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import { validateEmail } from "../../../utils/Validations";
-import firebaseApp from "../../../utils/firebase";
 import { getAuth, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 
@@ -55,7 +54,7 @@ export default function LoginForm(props) {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, formData.email, formData.password)
                 .then(response => {
-                    console.log(response)
+                    //console.log(response)
                     setUser(response.user);;
                     setUserActive(response.user.emailVerified);
                     if (!response.user.emailVerified) {

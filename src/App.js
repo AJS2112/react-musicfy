@@ -14,7 +14,7 @@ function App() {
 
 
   auth.onAuthStateChanged(currentUser => {
-    console.log(currentUser);
+    //console.log(currentUser);
     if (!currentUser?.emailVerified) {
       auth.signOut();
       setUser(null);
