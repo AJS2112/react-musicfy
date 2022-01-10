@@ -1,9 +1,5 @@
-import { initializeApp } from "firebase/app";
 import firebaseApp from "./firebase";
-import { getFirestore } from "firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
-
-import { collection, getDocs } from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 export async function isUserAdmin(uid) {
     const db = getFirestore(firebaseApp);
