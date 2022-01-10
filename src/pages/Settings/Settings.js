@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import UploadAvatar from '../../components/Settings/UploadAvatar';
+import UserName from '../../components/Settings/UserName';
 
 import "./Settings.scss";
 
@@ -11,7 +12,7 @@ export default function Settings(props) {
             <h1>Configuración</h1>
             <div className='avatar-name'>
                 <UploadAvatar user={user} setReloadApp={setReloadApp} />
-                <h2>User Name</h2>
+                <UserName user={user} />
             </div>
         </div>
     )
