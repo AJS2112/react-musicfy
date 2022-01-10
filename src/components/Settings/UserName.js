@@ -8,8 +8,8 @@ export default function UserName(props) {
     const { user, setShowModal, setTitleModal, setContentModal } = props;
 
     const onEdit = () => {
-        setTitleModal("Actualizar Email");
-        setContentModal(<h3>Formulario Actualizar</h3>);
+        setTitleModal("Actualizar Nombre");
+        setContentModal(<ChangeDisplayNameForm displayName={user.displayName} setShowModal={setShowModal} />);
         setShowModal(true);
     }
     return (
@@ -20,5 +20,29 @@ export default function UserName(props) {
             </Button>
         </div>
 
+    )
+}
+
+function ChangeDisplayNameForm(props) {
+    const { displayName, setShowModal } = props;
+
+    const onSubmit = () => {
+        console.log("Actualizando nombre de usuario");
+        setShowModal(false);
+    }
+
+
+    return (
+        <Form>
+            <Form.Field>
+                <Input
+                    defaultValue={displayName}
+                //onChange()
+                />
+            </Form.Field>
+            <Button type="submit">
+                Actualizar nombre
+            </Button>
+        </Form>
     )
 }
