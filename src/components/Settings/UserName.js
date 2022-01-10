@@ -5,10 +5,12 @@ import firebaseApp from "../../utils/firebase";
 import { getAuth, updateProfile } from "firebase/auth";
 
 export default function UserName(props) {
-    const { user } = props;
+    const { user, setShowModal, setTitleModal, setContentModal } = props;
 
     const onEdit = () => {
-        console.log("Editando nomnbre de usuario")
+        setTitleModal("Actualizar Email");
+        setContentModal(<h3>Formulario Actualizar</h3>);
+        setShowModal(true);
     }
     return (
         <div className="user-name">
