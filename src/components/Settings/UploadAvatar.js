@@ -9,7 +9,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import NoAvatar from "../../assets/png/user.png";
 
 export default function UploadAvatar(props) {
-    const { user } = props;
+    const { user, setReloadApp } = props;
     const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
 
     const onDrop = useCallback(acceptedFiles => {
@@ -17,7 +17,7 @@ export default function UploadAvatar(props) {
         setAvatarUrl(URL.createObjectURL(file));
         uploadImage(file);
     });
-    //console.log(user);
+    //console.log(setReloadApp);
 
     const uploadImage = file => {
         var metaData = {
@@ -31,16 +31,18 @@ export default function UploadAvatar(props) {
         UploadTask.on('state_changed', (snapshot) => {
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         }, (error) => {
-            alert("error: image not uploaded")
+            toast.error("Error al actualizar el avatar");
         }, () => {
-            getDownloadURL(UploadTask.snapshot.ref).then((dowloadedURL) => {
-                console.log(dowloadedURL);
-                const auth = getAuth();
-                updateProfile(user, { photoURL: dowloadedURL });
-            }).catch(() => {
-                toast.error("Error al actualizar el avatar");
-            })
+            getDownloadURL(UploadTask.snapshot.ref)
+                .then(async dowloadedURL => {
+                    await updateProfile(user, { photoURL: dowloadedURL });
+                    setReloadApp(prevState => !prevState);
+                }).catch((err) => {
+                    console.log(err)
+                    toast.error("Error al actualizar el avatar final");
+                })
         })
+
     }
 
 

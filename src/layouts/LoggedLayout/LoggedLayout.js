@@ -9,7 +9,7 @@ import TopBar from "../../components/TopBar/TopBar";
 import "./LoggedLayout.scss";
 
 export default function LoggedLayout(props) {
-    const { user } = props;
+    const { user, setReloadApp } = props;
 
     return (
         <Router>
@@ -22,7 +22,7 @@ export default function LoggedLayout(props) {
                         <TopBar user={user} />
                         <Routes
                             user={user}
-                        //setReloadApp={setReloadApp}
+                            setReloadApp={setReloadApp}
                         //playerSong={playerSong}
                         />
                     </Grid.Column>
