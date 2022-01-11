@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "semantic-ui-react";
 import { toast } from "react-toastify";
-import firebaseApp from "../../utils/firebase";
-import { getAuth, updateProfile } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 
 export default function UserName(props) {
     const { user, setShowModal, setTitleModal, setContentModal, setReloadApp } = props;
