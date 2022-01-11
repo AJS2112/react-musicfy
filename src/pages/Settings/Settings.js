@@ -3,6 +3,7 @@ import BasicModal from '../../components/Modal/BasicModal'
 import UploadAvatar from '../../components/Settings/UploadAvatar';
 import UserName from '../../components/Settings/UserName';
 import UserEmail from '../../components/Settings/UserEmail';
+import UserPassword from '../../components/Settings/UserPassword';
 
 import "./Settings.scss";
 
@@ -12,8 +13,6 @@ export default function Settings(props) {
     const [showModal, setShowModal] = useState(false);
     const [titleModal, setTitleModal] = useState("");
     const [contentModal, setContentModal] = useState(null);
-
-
 
     return (
         <div className='settings'>
@@ -29,6 +28,12 @@ export default function Settings(props) {
                 />
             </div>
             <UserEmail
+                user={user}
+                setShowModal={setShowModal}
+                setTitleModal={setTitleModal}
+                setContentModal={setContentModal}
+            />
+            <UserPassword
                 user={user}
                 setShowModal={setShowModal}
                 setTitleModal={setTitleModal}
