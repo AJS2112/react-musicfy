@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Input, Icon } from "semantic-ui-react";
 
 export default function UserPassword(props) {
@@ -18,6 +18,8 @@ export default function UserPassword(props) {
 }
 
 function ChangePasswordForm() {
+    const [showPassword, setShowPassword] = useState(false);
+
     const onSubmit = () => {
         console.log("cambiando pass")
     }
@@ -26,22 +28,40 @@ function ChangePasswordForm() {
             <Form.Field>
                 <Input
                     placeholder="Constraseña actual"
-                    type="password"
-                    icon={<Icon name="eye" link />}
+                    type={showPassword ? "text" : "password"}
+                    icon={
+                        <Icon
+                            name={showPassword ? "eye slash outline" : "eye"}
+                            link
+                            onClick={() => setShowPassword(!showPassword)}
+                        />
+                    }
                 />
             </Form.Field>
             <Form.Field>
                 <Input
                     placeholder="Nueva Constraseña"
-                    type="password"
-                    icon={<Icon name="eye" link />}
+                    type={showPassword ? "text" : "password"}
+                    icon={
+                        <Icon
+                            name={showPassword ? "eye slash outline" : "eye"}
+                            link
+                            onClick={() => setShowPassword(!showPassword)}
+                        />
+                    }
                 />
             </Form.Field>
             <Form.Field>
                 <Input
                     placeholder="Repetir nueva constraseña"
-                    type="password"
-                    icon={<Icon name="eye" link />}
+                    type={showPassword ? "text" : "password"}
+                    icon={
+                        <Icon
+                            name={showPassword ? "eye slash outline" : "eye"}
+                            link
+                            onClick={() => setShowPassword(!showPassword)}
+                        />
+                    }
                 />
             </Form.Field>
             <Button type="submit">Actualizar contraseña</Button>
