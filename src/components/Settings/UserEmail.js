@@ -25,13 +25,14 @@ function ChangeEmailForm(props) {
     const { user, setShowModal } = props;
     const { email } = user;
 
-    const [formData, setFormData] = useState({ email: email });
+    const [formData, setFormData] = useState({ email: "", password: "" });
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
 
     const onSubmit = () => {
         console.log('cambiando email')
+        console.log(formData);
     }
 
     return (
@@ -39,7 +40,8 @@ function ChangeEmailForm(props) {
             <Form.Field>
                 <Input
                     defaultValue={email}
-                    onChange={e => setFormData({ email: e.target.value })}
+                    type="text"
+                    onChange={e => setFormData({ ...formData, email: e.target.value })}
                 />
             </Form.Field>
             <Form.Field>
@@ -53,7 +55,7 @@ function ChangeEmailForm(props) {
                             onClick={() => setShowPassword(!showPassword)}
                         />
                     }
-                //onChange={e => setFormData({ email: e.target.value })}
+                    onChange={e => setFormData({ ...formData, password: e.target.value })}
                 />
             </Form.Field>
             <Button type="submit" loading={isLoading}>
