@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Icon } from "semantic-ui-react";
-
+import { toast } from "react-toastify";
+import { reauthenticate } from '../../utils/Api';
 
 export default function UserEmail(props) {
     const { user, setShowModal, setTitleModal, setContentModal } = props;
@@ -31,8 +32,17 @@ function ChangeEmailForm(props) {
 
 
     const onSubmit = () => {
-        console.log('cambiando email')
-        console.log(formData);
+        if (!formData.email) {
+            toast.warning("El email es el mismo");
+        } else {
+            setIsLoading(true);
+            reauthenticate(formData.password)
+                .then(() => {
+                    console.log('reautenticado con exito')
+                }).catch((error) => {
+                    console.log(error)
+                });
+        }
     }
 
     return (
