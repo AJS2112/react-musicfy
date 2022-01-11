@@ -34,7 +34,6 @@ export default function Settings(props) {
                 setContentModal={setContentModal}
             />
             <UserPassword
-                user={user}
                 setShowModal={setShowModal}
                 setTitleModal={setTitleModal}
                 setContentModal={setContentModal}
