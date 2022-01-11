@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Icon } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import { reauthenticate } from '../../utils/Api';
+import alertErrors from "../../utils/AlertErrors";
 
 export default function UserEmail(props) {
     const { user, setShowModal, setTitleModal, setContentModal } = props;
@@ -41,6 +42,8 @@ function ChangeEmailForm(props) {
                     console.log('reautenticado con exito')
                 }).catch((error) => {
                     console.log(error)
+                    alertErrors(error?.code);
+                    setIsLoading(false);
                 });
         }
     }
