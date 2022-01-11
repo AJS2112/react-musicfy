@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Icon } from "semantic-ui-react";
 import { toast } from "react-toastify";
+import firebaseApp from "../../utils/firebase";
 import { reauthenticate } from '../../utils/Api';
+import { updateEmail, getAuth, sendEmailVerification } from "firebase/auth";
+
 import alertErrors from "../../utils/AlertErrors";
 
 export default function UserEmail(props) {
@@ -39,9 +42,22 @@ function ChangeEmailForm(props) {
             setIsLoading(true);
             reauthenticate(formData.password)
                 .then(() => {
-                    console.log('reautenticado con exito')
+                    updateEmail(user, formData.email)
+                        .then(() => {
+                            toast.success("Email actualizado")
+                            setIsLoading(false);
+                            setShowModal(false);
+                            sendEmailVerification(user)
+                                .then(() => {
+                                    getAuth(firebaseApp).signOut();
+                                })
+                        })
+                        .catch((error) => {
+                            alertErrors(error?.code);
+                            setIsLoading(false);
+                        })
                 }).catch((error) => {
-                    console.log(error)
+                    //console.log(error)
                     alertErrors(error?.code);
                     setIsLoading(false);
                 });
