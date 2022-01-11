@@ -24,8 +24,11 @@ export default function UserEmail(props) {
 function ChangeEmailForm(props) {
     const { user, setShowModal } = props;
     const { email } = user;
+
     const [formData, setFormData] = useState({ email: email });
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
 
     const onSubmit = () => {
         console.log('cambiando email')
@@ -42,8 +45,14 @@ function ChangeEmailForm(props) {
             <Form.Field>
                 <Input
                     placeholder="contraseña"
-                    type="password"
-                    icon={<Icon name="eye" link />}
+                    type={showPassword ? "text" : "password"}
+                    icon={
+                        <Icon
+                            name={showPassword ? "eye slash outline" : "eye"}
+                            link
+                            onClick={() => setShowPassword(!showPassword)}
+                        />
+                    }
                 //onChange={e => setFormData({ email: e.target.value })}
                 />
             </Form.Field>
