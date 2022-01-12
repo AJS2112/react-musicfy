@@ -5,7 +5,7 @@ import { reauthenticate } from '../../utils/Api';
 import alertErrors from "../../utils/AlertErrors";
 import firebaseApp from "../../utils/firebase";
 
-import { updatePassword, getAuth, sendEmailVerification } from "firebase/auth";
+import { updatePassword, getAuth } from "firebase/auth";
 
 export default function UserPassword(props) {
     const { setShowModal, setTitleModal, setContentModal } = props;
