@@ -8,6 +8,8 @@ import "./AddArtistForm.scss";
 
 export default function AddArtistForm(props) {
     const { setShowModal } = props;
+    const [formData, setFormData] = useState(initialValueForm());
+
     const [banner, setBanner] = useState(null);
     const [file, setFile] = useState(null);
 
@@ -48,9 +50,16 @@ export default function AddArtistForm(props) {
             <Form.Field>
                 <Input
                     placeholder="Nombre del Artista"
+                    onChange={e => setFormData({ name: e.target.value })}
                 />
             </Form.Field>
             <Button type="submit">Crear Artista</Button>
         </Form>
     )
+}
+
+function initialValueForm() {
+    return {
+        name: ""
+    }
 }
