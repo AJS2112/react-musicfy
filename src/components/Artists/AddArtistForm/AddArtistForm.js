@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Form, Input, Button, Image } from "semantic-ui-react";
 import { useDropzone } from "react-dropzone";
-
+import { toast } from 'react-toastify';
 import NoImage from "../../../assets/png/no-image.png";
 
 import "./AddArtistForm.scss";
@@ -12,6 +12,7 @@ export default function AddArtistForm(props) {
 
     const [banner, setBanner] = useState(null);
     const [file, setFile] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onDrop = useCallback(acceptedFile => {
         const file = acceptedFile[0];
@@ -26,7 +27,14 @@ export default function AddArtistForm(props) {
     });
 
     const onSubmit = () => {
-        console.log("Creando artista");
+        if (!formData) {
+            toast.warning("Añade el nombre del artista");
+        } else if (!file) {
+            toast.warning("Añade la imagen del artista");
+        } else {
+            setIsLoading(true);
+
+        }
         setShowModal(false);
     }
 
@@ -53,7 +61,7 @@ export default function AddArtistForm(props) {
                     onChange={e => setFormData({ name: e.target.value })}
                 />
             </Form.Field>
-            <Button type="submit">Crear Artista</Button>
+            <Button type="submit" loading={isLoading}>Crear Artista</Button>
         </Form>
     )
 }
