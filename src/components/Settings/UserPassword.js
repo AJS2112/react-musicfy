@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Form, Button, Input, Icon } from "semantic-ui-react";
+import { reauthenticate } from '../../utils/Api';
+import alertErrors from "../../utils/AlertErrors";
+import firebaseApp from "../../utils/firebase";
+
+import { updatePassword, getAuth, sendEmailVerification } from "firebase/auth";
 
 export default function UserPassword(props) {
     const { setShowModal, setTitleModal, setContentModal } = props;
@@ -8,7 +13,7 @@ export default function UserPassword(props) {
 
     const onEdit = () => {
         setTitleModal("Actualizar constraseña");
-        setContentModal(<ChangePasswordForm />);
+        setContentModal(<ChangePasswordForm setShowModal={setShowModal} />);
         setShowModal(true);
     }
     return (
@@ -19,13 +24,15 @@ export default function UserPassword(props) {
     )
 }
 
-function ChangePasswordForm() {
+function ChangePasswordForm(props) {
+    const { setShowModal } = props;
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         currentPassword: "",
         newPassword: "",
         repeatNewPassword: ""
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = () => {
         if (!formData.currentPassword || !formData.newPassword || !formData.repeatNewPassword) {
@@ -37,7 +44,25 @@ function ChangePasswordForm() {
         } else if (formData.newPassword.length < 6) {
             toast.warning("Las contraseñadebe tener al menos 6 caracteres")
         } else {
-            console.log("Cambiando pass")
+            setIsLoading(true);
+            reauthenticate(formData.currentPassword)
+                .then(() => {
+                    setIsLoading(false);
+                    var currentUser = getAuth(firebaseApp).currentUser;
+                    updatePassword(currentUser, formData.newPassword)
+                        .then(() => {
+                            toast.success("Contraseña actualizada");
+                            setIsLoading(false);
+                            setShowModal(false);
+                            getAuth(firebaseApp).signOut();
+                        }).catch((error) => {
+                            alertErrors(error?.code);
+                            isLoading(false);
+                        });
+                }).catch((error) => {
+                    setIsLoading(false);
+                    alertErrors(error?.code)
+                });
         }
 
     }
@@ -85,7 +110,7 @@ function ChangePasswordForm() {
                     }
                 />
             </Form.Field>
-            <Button type="submit">Actualizar contraseña</Button>
+            <Button type="submit" loading={isLoading}>Actualizar contraseña</Button>
         </Form>
     )
 }
