@@ -2,6 +2,11 @@ import React, { useState, useCallback } from "react";
 import { Form, Input, Button, Image } from "semantic-ui-react";
 import { useDropzone } from "react-dropzone";
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import firebaseApp from "../../../utils/firebase";
+import { getAuth, updateProfile } from "firebase/auth";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+
 import NoImage from "../../../assets/png/no-image.png";
 
 import "./AddArtistForm.scss";
@@ -26,6 +31,15 @@ export default function AddArtistForm(props) {
         onDrop
     });
 
+    const uploadImage = (filename) => {
+        var storage = getStorage(firebaseApp);
+        var storageRefence = ref(storage, `artist/${filename}`);
+
+        const UploadTask = uploadBytesResumable(storageRefence, file);
+
+        return UploadTask;
+    }
+
     const onSubmit = () => {
         if (!formData) {
             toast.warning("Añade el nombre del artista");
@@ -33,9 +47,15 @@ export default function AddArtistForm(props) {
             toast.warning("Añade la imagen del artista");
         } else {
             setIsLoading(true);
-
+            const fileName = uuidv4();
+            uploadImage(fileName).then(() => {
+                console.log("imagen subida correctamente")
+            }).catch((error) => {
+                toast.error("Error al subir la imagen")
+                setIsLoading(false);
+            })
         }
-        setShowModal(false);
+        //setShowModal(false);
     }
 
     return (
