@@ -36,7 +36,7 @@ function MenuLeft(props) {
         switch (type) {
             case "artist":
                 setTitleModal("Nuevo Artista")
-                setContentModal(<AddArtistForm />);
+                setContentModal(<AddArtistForm setShowModal={setShowModal} />);
                 setShowModal(true);
                 break;
             case "song":
