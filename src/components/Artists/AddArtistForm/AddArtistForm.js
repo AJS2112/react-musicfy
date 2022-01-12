@@ -12,7 +12,9 @@ export default function AddArtistForm(props) {
     const [file, setFile] = useState(null);
 
     const onDrop = useCallback(acceptedFile => {
-        console.log(acceptedFile);
+        const file = acceptedFile[0];
+        setFile(file);
+        setBanner(URL.createObjectURL(file));
     });
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -29,13 +31,19 @@ export default function AddArtistForm(props) {
     return (
         <Form className="add-artist-form" onSubmit={onSubmit}>
             <Form.Field className="artist-banner">
-                <div {...getRootProps()} className="banner" />
-                <Input  {...getInputProps()} />
+                <div
+                    {...getRootProps()}
+                    className="banner"
+                    style={{ backgroundImage: `url('${banner}')` }}
+                />
+                <input {...getInputProps()} />
+                {!banner && <Image src={NoImage} />}
             </Form.Field>
             <Form.Field className="artist-avatar">
-                <div>
-                    Avatar
-                </div>
+                <div
+                    className="avatar"
+                    style={{ backgroundImage: `url('${banner ? banner : NoImage}')` }}
+                />
             </Form.Field>
             <Form.Field>
                 <Input
