@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import firebaseApp from "../../utils/firebase";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -33,7 +34,9 @@ export default function Artists() {
             <h1>Artistas</h1>
             <Grid>
                 {map(artists, artist => (
-                    <Artist key={artist.id} artist={artist} />
+                    <Grid.Column key={artist.id} mobile={8} tablet={4} computer={3}>
+                        <Artist artist={artist} />
+                    </Grid.Column>
                 ))}
             </Grid>
         </div>
@@ -56,8 +59,14 @@ function Artist(props) {
     }, [artist]);
 
     return (
-        <div>
-            <h2>{artist.name}</h2>
-        </div>
+        <Link to={`/artist/${artist.id}`}>
+            <div className="artists__item">
+                <div
+                    className="avatar"
+                    style={{ backgroundImage: `url('${bannerUrl}')` }}
+                />
+                <h3>{artist.name}</h3>
+            </div>
+        </Link>
     )
 }
