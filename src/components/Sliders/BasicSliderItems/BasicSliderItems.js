@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { map } from "lodash";
 import Slider from 'react-slick'
+import { Link } from 'react-router-dom';
 import firebaseApp from "../../../utils/firebase";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
@@ -8,7 +9,7 @@ import './BasicSliderItems.scss';
 
 
 export default function BasicSliderItems(props) {
-    const { title, data } = props;
+    const { title, data, folderImage, urlName } = props;
 
     const settings = {
         dots: false,
@@ -25,7 +26,7 @@ export default function BasicSliderItems(props) {
             <h2>{title}</h2>
             <Slider {...settings}>
                 {map(data, item => (
-                    <RenderItem key={item.id} item={item} />
+                    <RenderItem key={item.id} item={item} folderImage={folderImage} urlName={urlName} />
                 ))}
             </Slider>
         </div>
@@ -33,28 +34,30 @@ export default function BasicSliderItems(props) {
 }
 
 function RenderItem(props) {
-    const { item } = props;
+    const { item, folderImage, urlName } = props;
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
         var storage = getStorage(firebaseApp);
-        var storageRefence = ref(storage, `artist/${item.banner}`);
+        var storageRefence = ref(storage, `${folderImage}/${item.banner}`);
         getDownloadURL(storageRefence)
             .then(url => {
                 setImageUrl(url);
             }).catch((err) => {
                 console.log(err)
             })
-    }, [item]);
+    }, [item, folderImage]);
 
 
     return (
-        <div className="basic-slider-items__list-item">
-            <div
-                className="avatar"
-                style={{ backgroundImage: `url('${imageUrl}')` }}
-            />
-            <h3>{item.name}</h3>
-        </div>
+        <Link to={`/${urlName}/${item.id}`}>
+            <div className="basic-slider-items__list-item">
+                <div
+                    className="avatar"
+                    style={{ backgroundImage: `url('${imageUrl}')` }}
+                />
+                <h3>{item.name}</h3>
+            </div>
+        </Link>
     );
 };

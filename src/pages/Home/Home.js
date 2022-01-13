@@ -14,7 +14,7 @@ const db = getFirestore(firebaseApp);
 export default function Home() {
     const [artists, setArtists] = useState([]);
 
-    console.log(artists);
+    //console.log(artists);
 
     useEffect(() => {
         getDocs(collection(db, "artists"))
@@ -34,7 +34,12 @@ export default function Home() {
         <>
             <BannerHome />
             <div className="home">
-                <BasicSliderItems title="Ultimos Artistas" data={artists} />
+                <BasicSliderItems
+                    title="Ultimos Artistas"
+                    data={artists}
+                    folderImage="artist"
+                    urlName="artist"
+                />
                 <h1>Home...</h1>
             </div>
         </>
