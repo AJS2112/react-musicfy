@@ -1,0 +1,9 @@
+@import "../../../scss/index.scss";
+
+.ui.form.add-album-form{
+    .album-inputs{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+}
