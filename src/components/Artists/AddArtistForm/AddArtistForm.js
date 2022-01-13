@@ -4,12 +4,14 @@ import { useDropzone } from "react-dropzone";
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import firebaseApp from "../../../utils/firebase";
-import { getAuth, updateProfile } from "firebase/auth";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 import NoImage from "../../../assets/png/no-image.png";
 
 import "./AddArtistForm.scss";
+
+const db = getFirestore(firebaseApp);
 
 export default function AddArtistForm(props) {
     const { setShowModal } = props;
@@ -48,14 +50,32 @@ export default function AddArtistForm(props) {
         } else {
             setIsLoading(true);
             const fileName = uuidv4();
-            uploadImage(fileName).then(() => {
-                console.log("imagen subida correctamente")
+
+            uploadImage(fileName).then(async () => {
+                await addDoc(collection(db, "artists"), {
+                    name: formData.name,
+                    banner: fileName
+                }).then(() => {
+                    toast.success("Artista creado correctamente");
+                    resetForm();
+                    setIsLoading(false);
+                    setShowModal(false);
+                }).catch(() => {
+                    toast.error("Error al crear el artista");
+                    setIsLoading(false);
+                });
             }).catch((error) => {
                 toast.error("Error al subir la imagen")
                 setIsLoading(false);
             })
         }
-        //setShowModal(false);
+
+    }
+
+    const resetForm = () => {
+        setFormData(initialValueForm);
+        setFile(null);
+        setBanner(null);
     }
 
     return (
