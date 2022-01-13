@@ -8,6 +8,7 @@ import {
 import Home from "../pages/Home/Home";
 import Settings from "../pages/Settings";
 import Artist from "../pages/Artist/Artist";
+import Artists from "../pages/Artists";
 
 export default function Routes(props) {
     const { user, setReloadApp } = props;
@@ -18,7 +19,7 @@ export default function Routes(props) {
             </Route>
 
             <Route path="/artists" exact>
-                <h1>Artists</h1>
+                <Artists />
             </Route>
 
             <Route path="/artist/:id" exact>
