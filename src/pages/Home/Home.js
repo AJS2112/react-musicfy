@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import BannerHome from "../../components/BannerHome";
 import firebaseApp from "../../utils/firebase";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { map } from "lodash";
+
+import BannerHome from "../../components/BannerHome";
+import BasicSliderItems from "../../components/Sliders/BasicSliderItems/BasicSliderItems";
+
 import "./Home.scss";
 
 const db = getFirestore(firebaseApp);
@@ -31,6 +34,7 @@ export default function Home() {
         <>
             <BannerHome />
             <div className="home">
+                <BasicSliderItems title="Ultimos Artistas" data={artists} />
                 <h1>Home...</h1>
             </div>
         </>
