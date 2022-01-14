@@ -1,15 +1,40 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Form, Input, Button, Image, Dropdown } from "semantic-ui-react";
 import { useDropzone } from "react-dropzone";
-
+import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import { map } from "lodash";
+import firebaseApp from "../../../utils/firebase";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 import NoImage from "../../../assets/png/no-image.png";
 
 import './AddAlbumForm.scss';
 
+const db = getFirestore(firebaseApp);
+
 export default function AddAlbumForm(props) {
     const { setShowModal } = props;
     const [albumImage, setAlbumImage] = useState(null);
-    const [file, setFile] = useState(null)
+    const [file, setFile] = useState(null);
+    const [artists, setArtists] = useState([]);
+
+    useEffect(() => {
+        getDocs(collection(db, "artists"))
+            .then(response => {
+                const arrayArtists = [];
+                map(response?.docs, artist => {
+                    const data = artist.data();
+                    data.id = artist.id;
+                    arrayArtists.push({
+                        key: artist.id,
+                        value: artist.id,
+                        text: data.name
+                    });
+                });
+                setArtists(arrayArtists);
+            });
+    }, [])
 
     const onDrop = useCallback(acceptedFiles => {
         const file = acceptedFiles[0];
@@ -44,7 +69,14 @@ export default function AddAlbumForm(props) {
                 <Form.Field className="album-inputs" width={11}>
                     <Input placeholder="Nombre del album" />
 
-                    <Dropdown placeholder="El album pertenece..." search />
+                    <Dropdown
+                        placeholder="El album pertenece..."
+                        search
+                        fluid
+                        selection
+                        lazyLoad
+                        options={artists}
+                    />
                 </Form.Field>
             </Form.Group>
             <Button type="submit">
