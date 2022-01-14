@@ -21,7 +21,7 @@ export default function BasicSliderItems(props) {
         className: "basic-slider-items__list"
     }
 
-    if (size(data) < 5) {
+    if (size(data) < 1) {
         return null
     }
 

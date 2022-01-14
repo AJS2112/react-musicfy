@@ -5,12 +5,13 @@ import Routes from "../../routes/Routes";
 
 import MenuLeft from "../../components/MenuLeft/MenuLeft";
 import TopBar from "../../components/TopBar/TopBar";
+import Player from "../../components/Player";
 
 import "./LoggedLayout.scss";
 
 export default function LoggedLayout(props) {
     const { user, setReloadApp } = props;
-
+    const songData = null;
     return (
         <Router>
             <Grid className="logged-layout">
@@ -29,8 +30,7 @@ export default function LoggedLayout(props) {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column width={16}>
-                        {/* <Player songData={songData} /> */}
-                        <h2>Player</h2>
+                        <Player songData={songData} />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

@@ -6,6 +6,7 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { map } from "lodash";
 
 import BannerArtist from "../../components/Artists/BannerArtist/BannerArtist";
+import BasicSliderItems from "../../components/Sliders/BasicSliderItems/BasicSliderItems";
 
 import "./Artist.scss";
 
@@ -52,9 +53,15 @@ function Artist(props) {
             {artist && (
                 <>
                     <BannerArtist artist={artist} />
-                    <h2>
-                        Mas informacion
-                    </h2>
+
+                    <div className="artist__content">
+                        <BasicSliderItems
+                            title="Albums"
+                            data={albums}
+                            folderImage="album"
+                            urlName="album"
+                        />
+                    </div>
                 </>
             )}
         </div>
