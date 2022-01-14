@@ -12,13 +12,14 @@ function Album(props) {
     const { match } = props;
     const [album, setAlbum] = useState(null);
     const [albumImg, setAlbumImg] = useState(null);
+    const [artist, setArtist] = useState(null);
 
     useEffect(() => {
         getDoc(doc(db, "albums", match?.params?.id))
             .then(response => {
                 setAlbum(response.data());
             })
-    }, [match])
+    }, [match]);
 
     useEffect(() => {
         if (album) {
@@ -32,6 +33,15 @@ function Album(props) {
                 })
         }
     }, [album]);
+
+    useEffect(() => {
+        if (album) {
+            getDoc(doc(db, "artists", album?.artist))
+                .then(response => {
+                    setArtist(response.data());
+                })
+        }
+    }, [album])
 
     return (
         <div>
