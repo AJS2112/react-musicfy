@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Grid, Progress, Icon, Input, Image } from "semantic-ui-react";
+import ReactPlayer from "react-player";
 
 import "./Player.scss";
 
 export default function Player(props) {
     const songData = {
         image: 'https://firebasestorage.googleapis.com/v0/b/musicfy-dbac4.appspot.com/o/album%2F77bdafba-2890-444a-a744-665669e4a0d9?alt=media&token=5c9b4186-c9ce-4fd3-a45b-47167d00bae1',
-        name: "Hypersonic"
+        name: "Hypersonic",
+        url: ""
     }
     //const { songData } = props;
     const [playedSeconds, setPlayedSeconds] = useState(0);
@@ -19,6 +21,11 @@ export default function Player(props) {
 
     const onPause = () => {
         setPlaying(false);
+    }
+
+    const onProgress = data => {
+        setPlayedSeconds(data.playedSeconds);
+        setTotalSeconds(data.loadedSeconds);
     }
 
     return (
@@ -57,6 +64,16 @@ export default function Player(props) {
                     />
                 </Grid.Column>
             </Grid>
+
+            <ReactPlayer
+                className="react-player"
+                url={songData?.url}
+                playing={playing}
+                height="0"
+                width="0"
+                volume={volume}
+                onProgress={e => onProgress(e)}
+            />
         </div>
     )
 }
