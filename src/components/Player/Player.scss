@@ -26,4 +26,35 @@
             margin-right: 20px;
         }
     }
+
+    .center{
+        display: flex !important;
+        align-items: center;
+        flex-direction: column;
+
+        .controls{
+            margin-bottom: 10px;
+
+            i{
+                font-size: 30px !important;
+                margin: 0 !important;
+
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .ui.progress{
+            width: 100%;
+            margin: 0;
+
+            .bar{
+                min-width: 0%;
+                .progress{
+                    display: none;
+                }
+            }
+        }
+    }
 }
