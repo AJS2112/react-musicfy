@@ -19,6 +19,7 @@ export default function AddAlbumForm(props) {
     const [file, setFile] = useState(null);
     const [artists, setArtists] = useState([]);
     const [formData, setFormData] = useState(initialValueForm)
+    const [isLoadding, setIsLoadding] = useState(false);
 
     useEffect(() => {
         getDocs(collection(db, "artists"))
@@ -50,7 +51,14 @@ export default function AddAlbumForm(props) {
     });
 
     const onSubmit = () => {
-        console.log("enviando formulario");
+        if (!formData.name || !formData.artist) {
+            toast.warning("Datos inválidos")
+        } else if (!file) {
+            toast.warning("Selecciona una imagen")
+        } else {
+            setIsLoadding(true);
+            console.log("Creando album")
+        }
     }
 
     return (
@@ -84,7 +92,7 @@ export default function AddAlbumForm(props) {
                     />
                 </Form.Field>
             </Form.Group>
-            <Button type="submit">
+            <Button type="submit" loading={isLoadding}>
                 Crear album
             </Button>
         </Form>
