@@ -19,7 +19,7 @@ export default function AddAlbumForm(props) {
     const [file, setFile] = useState(null);
     const [artists, setArtists] = useState([]);
     const [formData, setFormData] = useState(initialValueForm)
-    const [isLoadding, setIsLoadding] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getDocs(collection(db, "artists"))
@@ -50,15 +50,47 @@ export default function AddAlbumForm(props) {
         onDrop
     });
 
+    const uploadImage = (fileName) => {
+        var storage = getStorage(firebaseApp);
+        var storageRefence = ref(storage, `album/${fileName}`);
+
+        const UploadTask = uploadBytesResumable(storageRefence, file);
+        return UploadTask;
+    }
+
     const onSubmit = () => {
         if (!formData.name || !formData.artist) {
             toast.warning("Datos inválidos")
         } else if (!file) {
             toast.warning("Selecciona una imagen")
         } else {
-            setIsLoadding(true);
-            console.log("Creando album")
+            setIsLoading(true);
+            const fileName = uuidv4();
+            uploadImage(fileName).then(async () => {
+                await addDoc(collection(db, "albums"), {
+                    name: formData.name,
+                    artist: formData.artist,
+                    banner: fileName
+                }).then(() => {
+                    toast.success("Album creado correctamente");
+                    resetForm();
+                    setIsLoading(false);
+                    setShowModal(false);
+                }).catch(() => {
+                    toast.error("Error al crear el album");
+                    setIsLoading(false);
+                });
+            }).catch((error) => {
+                toast.error("Error al subir la imagen")
+                setIsLoading(false);
+            })
         }
+    }
+
+    const resetForm = () => {
+        setFormData(initialValueForm);
+        setFile(null);
+        setAlbumImage(null);
     }
 
     return (
@@ -92,7 +124,7 @@ export default function AddAlbumForm(props) {
                     />
                 </Form.Field>
             </Form.Group>
-            <Button type="submit" loading={isLoadding}>
+            <Button type="submit" loading={isLoading}>
                 Crear album
             </Button>
         </Form>
