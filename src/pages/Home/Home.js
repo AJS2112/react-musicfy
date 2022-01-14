@@ -61,7 +61,7 @@ export default function Home() {
                     folderImage="album"
                     urlName="album"
                 />
-                <h1>Mas...</h1>
+
             </div>
         </>
     )

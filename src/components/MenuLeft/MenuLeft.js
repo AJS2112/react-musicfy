@@ -78,7 +78,15 @@ function MenuLeft(props) {
                         active={activeMenu === "/artists"}
                         onClick={handlerMenu}
                     >
-                        <Icon name='music' /> Artistas
+                        <Icon name='user' /> Artistas
+                    </Menu.Item>
+                    <Menu.Item
+                        as={Link}
+                        to="/albums"
+                        active={activeMenu === "/albums"}
+                        onClick={handlerMenu}
+                    >
+                        <Icon name='window maximize outline' /> Albums
                     </Menu.Item>
                 </div>
                 {userAdmin && (

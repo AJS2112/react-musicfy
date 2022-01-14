@@ -9,6 +9,7 @@ import Home from "../pages/Home/Home";
 import Settings from "../pages/Settings";
 import Artist from "../pages/Artist/Artist";
 import Artists from "../pages/Artists";
+import Albums from "../pages/Albums";
 
 export default function Routes(props) {
     const { user, setReloadApp } = props;
@@ -24,6 +25,10 @@ export default function Routes(props) {
 
             <Route path="/artist/:id" exact>
                 <Artist />
+            </Route>
+
+            <Route path="/albums" exact>
+                <Albums />
             </Route>
 
             <Route path="/settings" exact>
