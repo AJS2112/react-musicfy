@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Progress, Icon, Input, Image } from "semantic-ui-react";
 import ReactPlayer from "react-player";
 
 import "./Player.scss";
 
 export default function Player(props) {
-    const songData = {
-        image: 'https://firebasestorage.googleapis.com/v0/b/musicfy-dbac4.appspot.com/o/album%2F77bdafba-2890-444a-a744-665669e4a0d9?alt=media&token=5c9b4186-c9ce-4fd3-a45b-47167d00bae1',
-        name: "Hypersonic",
-        url: ""
-    }
-    //const { songData } = props;
+    const { songData } = props;
     const [playedSeconds, setPlayedSeconds] = useState(0);
     const [totalSeconds, setTotalSeconds] = useState(0);
     const [playing, setPlaying] = useState(false);
     const [volume, setVolume] = useState(0.3)
+
+    useEffect(() => {
+        if (songData?.url) {
+            onStart();
+        }
+    }, [songData])
+
+
     const onStart = () => {
         setPlaying(true);
     }
@@ -59,7 +62,7 @@ export default function Player(props) {
                         max={1}
                         step={0.01}
                         name="volume"
-                        onChange={(e, data) => setVolume(data.value)}
+                        onChange={(e, data) => setVolume(Number(data.value))}
                         value={volume}
                     />
                 </Grid.Column>
