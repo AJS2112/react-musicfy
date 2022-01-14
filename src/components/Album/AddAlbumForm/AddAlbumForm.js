@@ -18,6 +18,7 @@ export default function AddAlbumForm(props) {
     const [albumImage, setAlbumImage] = useState(null);
     const [file, setFile] = useState(null);
     const [artists, setArtists] = useState([]);
+    const [formData, setFormData] = useState(initialValueForm)
 
     useEffect(() => {
         getDocs(collection(db, "artists"))
@@ -67,7 +68,10 @@ export default function AddAlbumForm(props) {
                     {!albumImage && <Image src={NoImage} />}
                 </Form.Field>
                 <Form.Field className="album-inputs" width={11}>
-                    <Input placeholder="Nombre del album" />
+                    <Input
+                        placeholder="Nombre del album"
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    />
 
                     <Dropdown
                         placeholder="El album pertenece..."
@@ -76,6 +80,7 @@ export default function AddAlbumForm(props) {
                         selection
                         lazyLoad
                         options={artists}
+                        onChange={(e, data) => setFormData({ ...formData, artist: data.value })}
                     />
                 </Form.Field>
             </Form.Group>
@@ -85,4 +90,11 @@ export default function AddAlbumForm(props) {
         </Form>
 
     )
+}
+
+function initialValueForm() {
+    return {
+        name: "",
+        artist: ""
+    }
 }
