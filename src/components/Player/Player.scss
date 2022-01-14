@@ -57,4 +57,22 @@
             }
         }
     }
+
+    .right{
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+
+        .ui.input{
+            i{
+                color: $font-grey;
+                margin-right: 15px;   
+            }
+            input{
+                width: 120px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+    }
 }

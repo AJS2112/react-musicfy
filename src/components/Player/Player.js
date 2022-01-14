@@ -12,7 +12,7 @@ export default function Player(props) {
     const [playedSeconds, setPlayedSeconds] = useState(0);
     const [totalSeconds, setTotalSeconds] = useState(0);
     const [playing, setPlaying] = useState(false);
-
+    const [volume, setVolume] = useState(0.3)
     const onStart = () => {
         setPlaying(true);
     }
@@ -45,7 +45,16 @@ export default function Player(props) {
                     />
                 </Grid.Column>
                 <Grid.Column width={4} className="right">
-                    <h2>right</h2>
+                    <Input
+                        type="range"
+                        label={<Icon name="volume up" />}
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        name="volume"
+                        onChange={(e, data) => setVolume(data.value)}
+                        value={volume}
+                    />
                 </Grid.Column>
             </Grid>
         </div>
