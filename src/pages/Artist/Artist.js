@@ -7,13 +7,14 @@ import { map } from "lodash";
 
 import BannerArtist from "../../components/Artists/BannerArtist/BannerArtist";
 import BasicSliderItems from "../../components/Sliders/BasicSliderItems/BasicSliderItems";
+import SongsSlider from "../../components/Sliders/SongsSlider/SongsSlider";
 
 import "./Artist.scss";
 
 const db = getFirestore(firebaseApp);
 
 function Artist(props) {
-    const { match } = props;
+    const { match, playerSong } = props;
     const [artist, setArtist] = useState(null);
     const [albums, setAlbums] = useState([]);
     const [songs, setSongs] = useState([]);
@@ -80,6 +81,12 @@ function Artist(props) {
                             data={albums}
                             folderImage="album"
                             urlName="album"
+                        />
+
+                        <SongsSlider
+                            title="Canciones"
+                            data={songs}
+                            playerSong={playerSong}
                         />
                     </div>
                 </>

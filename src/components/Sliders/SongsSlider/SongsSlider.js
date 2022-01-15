@@ -14,6 +14,8 @@ const db = getFirestore(firebaseApp);
 
 export default function SongsSlider(props) {
     const { title, data, playerSong } = props;
+    console.log('DATA')
+    console.log(data);
 
     const settings = {
         dots: false,
