@@ -6,6 +6,7 @@ import { map } from "lodash";
 
 import BannerHome from "../../components/BannerHome";
 import BasicSliderItems from "../../components/Sliders/BasicSliderItems/BasicSliderItems";
+import SongsSlider from "../../components/Sliders/SongsSlider/SongsSlider";
 
 import "./Home.scss";
 
@@ -76,6 +77,11 @@ export default function Home() {
                     data={albums}
                     folderImage="album"
                     urlName="album"
+                />
+
+                <SongsSlider
+                    title="Ultimas Canciones"
+                    data={songs}
                 />
 
 
