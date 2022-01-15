@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Grid } from "semantic-ui-react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "../../routes/Routes";
+import firebaseApp from "../../utils/firebase";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import MenuLeft from "../../components/MenuLeft/MenuLeft";
 import TopBar from "../../components/TopBar/TopBar";
@@ -13,8 +15,15 @@ export default function LoggedLayout(props) {
     const { user, setReloadApp } = props;
     const [songData, setSongData] = useState(null);
 
-    const playerSong = (albumImage, songName, songUrl) => {
-        //setSongData({ url: songUrl, image: albumImage, name: songName });
+    const playerSong = (albumImage, songName, songNameFile) => {
+        var storage = getStorage(firebaseApp);
+        var storageRefence = ref(storage, `song/${songNameFile}`);
+        getDownloadURL(storageRefence)
+            .then(songUrl => {
+                setSongData({ url: songUrl, image: albumImage, name: songName });
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     return (

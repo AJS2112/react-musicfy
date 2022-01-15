@@ -12,7 +12,9 @@ import "./Home.scss";
 
 const db = getFirestore(firebaseApp);
 
-export default function Home() {
+export default function Home(props) {
+    const { playerSong } = props;
+
     const [artists, setArtists] = useState([]);
     const [albums, setAlbums] = useState([]);
     const [songs, setSongs] = useState([]);
@@ -82,6 +84,7 @@ export default function Home() {
                 <SongsSlider
                     title="Ultimas Canciones"
                     data={songs}
+                    playerSong={playerSong}
                 />
 
 
