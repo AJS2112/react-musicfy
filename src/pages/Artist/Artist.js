@@ -16,6 +16,7 @@ function Artist(props) {
     const { match } = props;
     const [artist, setArtist] = useState(null);
     const [albums, setAlbums] = useState([]);
+    const [songs, setSongs] = useState([]);
 
     useEffect(() => {
 
@@ -45,7 +46,26 @@ function Artist(props) {
 
     }, [artist]);
 
+    useEffect(() => {
+        const arraySongs = [];
 
+        (async () => {
+            await Promise.all(
+                map(albums, async album => {
+                    const q = query(collection(db, "songs"), where("album", "==", album.id));
+                    await getDocs(q)
+                        .then(response => {
+                            map(response?.docs, song => {
+                                const data = song.data();
+                                data.id = song.id;
+                                arraySongs.push(data);
+                            });
+                        });
+                })
+            )
+        })()
+        setSongs(arraySongs);
+    }, [albums])
 
 
     return (
