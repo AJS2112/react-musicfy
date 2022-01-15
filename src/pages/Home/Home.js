@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import firebaseApp from "../../utils/firebase";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, limit } from "firebase/firestore";
 import { map } from "lodash";
 
 import BannerHome from "../../components/BannerHome";
@@ -14,6 +14,7 @@ const db = getFirestore(firebaseApp);
 export default function Home() {
     const [artists, setArtists] = useState([]);
     const [albums, setAlbums] = useState([]);
+    const [songs, setSongs] = useState([]);
 
 
     //console.log(artists);
@@ -44,6 +45,21 @@ export default function Home() {
             })
     }, [])
 
+    useEffect(() => {
+        const q = query(collection(db, "songs"), limit(10));
+        getDocs(q)
+            .then(response => {
+                const arraySongs = [];
+                console.log(response.docs)
+                map(response?.docs, song => {
+                    const data = song.data();
+                    data.id = song.id;
+                    arraySongs.push(data);
+                });
+                setSongs(arraySongs);
+            })
+    }, [])
+
     return (
         <>
             <BannerHome />
@@ -61,6 +77,7 @@ export default function Home() {
                     folderImage="album"
                     urlName="album"
                 />
+
 
             </div>
         </>
