@@ -5,6 +5,7 @@ import { isUserAdmin } from '../../utils/Api';
 
 import AddArtistForm from '../Artists/AddArtistForm/AddArtistForm';
 import AddAlbumForm from '../Album/AddAlbumForm/AddAlbumForm';
+import AddSongForm from '../Songs/AddSongForm/AddSongForm';
 
 import BasicModal from '../Modal/BasicModal/BasicModal';
 
@@ -47,7 +48,7 @@ function MenuLeft(props) {
                 break;
             case "song":
                 setTitleModal("Nueva Canción")
-                setContentModal(<h2>Formulario Nueva Canción</h2>);
+                setContentModal(<AddSongForm setShowModal={setShowModal} />);
                 setShowModal(true);
                 break;
 
